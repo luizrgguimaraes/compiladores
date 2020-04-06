@@ -1,0 +1,253 @@
+//LISTA ENCADEADA
+
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct {
+	unsigned int Flag01:1;
+	unsigned int Flag02:1;
+	unsigned int Flag03:2;
+	unsigned int Flag04:2;
+
+}Flag;
+
+typedef enum TokenType{
+	TEXTO=1,
+	INTEIRO=2,
+	REAL=3,
+} TokenType;
+
+typedef union Value {//um valor de cada vez
+	int i;
+	double r;
+	char *t;
+} Value;
+
+typedef struct Token{
+	TokenType tt;
+	Value v;
+}Token;
+
+typedef struct No{
+	struct No *prox;
+	Token t;
+}No;
+
+No *novoInteiro(int i){
+	No *p = (No *)malloc(sizeof(No));
+	p->prox = NULL;
+	p->t.tt = INTEIRO;
+	p->t.v.i = i;
+	return p;
+}
+No *novoReal(double r){
+	No *p = malloc(sizeof(No));
+	p->prox = NULL;
+	p->t.tt = REAL;
+	p->t.v.r = r;
+	return p;
+}
+No *novoTexto(char  *t){
+	No *p = malloc(sizeof(No));
+	p->prox = NULL;
+	p->t.tt = TEXTO;
+    
+    
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct {
+	unsigned int Flag01:1;
+	unsigned int Flag02:1;
+	unsigned int Flag03:2;
+	unsigned int Flag04:2;
+
+}Flag;
+
+typedef enum TokenType{
+	TEXTO=1,
+	INTEIRO=2,
+	REAL=3,
+} TokenType;
+
+typedef union Value {//um valor de cada vez
+	int i;
+	double r;
+	char *t;
+} Value;
+
+typedef struct Token{
+	TokenType tt;
+	Value v;
+}Token;
+
+typedef struct No{
+	struct No *prox;
+	Token t;
+}No;
+
+No *novoInteiro(int i){
+	No *p = (No *)malloc(sizeof(No));
+	p->prox = NULL;
+	p->t.tt = INTEIRO;
+	p->t.v.i = i;
+	return p;
+}
+No *novoReal(double r){
+	No *p = malloc(sizeof(No));
+	p->prox = NULL;
+	p->t.tt = REAL;
+	p->t.v.r = r;
+	return p;
+}
+No *novoTexto(char  *t){
+	No *p = malloc(sizeof(No));
+	p->prox = NULL;
+	p->t.tt = TEXTO;
+	p->t.v.t = t;
+	return p;
+}
+
+
+
+int main(void){
+	No *p;	
+	p = novoInteiro(59);
+	p = p->prox;
+	p = novoReal(59.0);
+	p = p->prox;
+	p = novoTexto("Ola Mundo");
+	
+	
+//	Token t;
+//	t.v.i = 10;
+//	t.tt = INTEIRO;
+//	printf("%d\n",t.v.i);
+//	printf("%zu\n",sizeof(Token));
+//	printf("%zu\n",sizeof(Flag));
+}
+	p->t.v.t = t;
+	return p;
+}
+
+
+
+int main(void){
+	No *p;	
+	p = novoInteiro(59);
+	p = p->prox;
+	p = novoReal(59.0);
+	p = p->prox;
+	p = novoTexto("Ola Mundo");
+	
+	
+//	Token t;
+//	t.v.i = 10;
+//	t.tt = INTEIRO;
+//	printf("%d\n",t.v.i);
+//	printf("%zu\n",sizeof(Token));
+//	printf("%zu\n",sizeof(Flag));
+}
+
+
+//usuario.c
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "usuario.h"
+#define LEN_MAX 80
+
+struct tUsuario{
+	int id;
+	char *nome;
+};
+static int id = 0;
+
+pUsuario CriarUsuario(char *nome){
+	id++;
+
+	int len = strlen(nome);
+	pUsuario p = malloc(sizeof(struct tUsuario));
+	p->id = id;
+	if(nome==NULL){
+		p->nome  = malloc(sizeof(char));
+		p->nome[0] = '\0';
+	}else{
+		p->nome  = malloc(strlen(nome)+1);	
+		strcpy(p->nome,nome);	
+	}
+	return p;
+}
+
+void Imprimir(pUsuario u){
+	printf("%d - %s\n",u->id,u->nome);
+}
+void DestruirUsuario(pUsuario *u){
+	if(*u!=NULL){
+		free((*u)->nome);
+		(*u)->nome=NULL;
+		free(*u);
+		*u=NULL;
+	}
+	
+}
+
+
+
+
+
+//funcao como static ninguem consegue utilizar
+
+
+//usuario.h
+#ifndef __Usuario_H__
+#define __Usuario_H__
+
+typedef struct tUsuario *pUsuario;
+
+pUsuario CriarUsuario(char *);
+void Imprimir(pUsuario);
+void DestruirUsuario(pUsuario *);#include <stdio.h>
+
+
+
+#include <stdlib.h>
+
+#include "usuario.h"
+
+int main(){
+	pUsuario u = CriarUsuario("Luiz");
+	pUsuario v = CriarUsuario("Paulo Gabriel");
+	pUsuario x = CriarUsuario("Ana");
+	Imprimir(u);
+	Imprimir(v);
+	Imprimir(x);
+	DestruirUsuario(&u);
+	DestruirUsuario(&v);
+	for(int i = 0;i<10000;i++)
+		DestruirUsuario(&x);
+	exit(0);
+}
+
+#endif
+
+
+//Main.c
+#include <stdio.h>
+#include <stdlib.h>
+
+#include "usuario.h"
+
+int main(){
+	pUsuario u = CriarUsuario("Luiz");
+	pUsuario v = CriarUsuario("Paulo Gabriel");
+	pUsuario x = CriarUsuario("Ana");
+	Imprimir(u);
+	Imprimir(v);
+	Imprimir(x);
+	DestruirUsuario(&u);
+	DestruirUsuario(&v);
+	for(int i = 0;i<10000;i++)
+		DestruirUsuario(&x);
+	exit(0);
+}
