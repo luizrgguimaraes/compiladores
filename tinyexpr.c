@@ -283,6 +283,7 @@ void next_token(state *s) {
                     case '%': s->type = TOK_INFIX; s->function = fmod; break;
                     /* inclusao do operador fatorial unario*/
                     case '!': s->type = TOK_INFIX; s->function = fac;break;
+                    case '(': s->type = TOK_OPEN; break;
                     case ')': s->type = TOK_CLOSE; break;
                     case ',': s->type = TOK_SEP; break;
                     case ' ': case '\t': case '\n': case '\r': break;
@@ -310,7 +311,7 @@ static te_expr *base(state *s) {
             next_token(s);
             if(s->function==fac){/* inclusao do operador fatorial unario*/
       			ret = NEW_EXPR(TE_FUNCTION1|TE_FLAG_PURE,ret);
-      			ret->function=s->function;
+      			ret->function=fac;
       			next_token(s);
       		}
             break;
