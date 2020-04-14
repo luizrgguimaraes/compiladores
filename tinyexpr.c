@@ -373,7 +373,7 @@ static te_expr *base(state *s) {
                     s->type = TOK_ERROR;
                 } else {
                     next_token(s);
-/*    		    if(s->function==fac){/* inclusao do operador fatorial unario*/
+/*    		    if(s->function==fac){/* inclusao do operador fatorial unario - nao funciona com parenteses*/
 /*      			ret = NEW_EXPR(TE_FUNCTION1|TE_FLAG_PURE,ret);
       			ret->function=fac;
       			next_token(s);
