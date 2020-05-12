@@ -309,11 +309,11 @@ static te_expr *base(state *s) {
             ret = new_expr(TE_CONSTANT, 0);
             ret->value = s->value;
             next_token(s);
-            if(s->function==fac){/* inclusao do operador fatorial unario*/
+            /*if(s->function==fac){/* inclusao do operador fatorial unario
       			ret = NEW_EXPR(TE_FUNCTION1|TE_FLAG_PURE,ret);
       			ret->function=fac;
       			next_token(s);
-      		}
+      	    }*/
             break;
 
         case TOK_VARIABLE:
@@ -479,11 +479,15 @@ static te_expr *factor(state *s) {
 }
 #endif
 
-
+static te_expr *factorial(state *s){
+    te_expr *ret = factor(s);
+   //implementacao
+    return ret;
+}
 
 static te_expr *term(state *s) {
     /* <term>      =    <factor> {("*" | "/" | "%") <factor>} */
-    te_expr *ret = factor(s);
+    te_expr *ret = factorial(s);
 
     while (s->type == TOK_INFIX && (s->function == mul || s->function == divide || s->function == fmod)) {
         te_fun2 t = s->function;

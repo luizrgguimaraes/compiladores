@@ -11,7 +11,7 @@ char *codigo(char **e, char **p,char *vetor,int *pos);
 char *loop(char **e,char **p,char *vetor,int *pos){
 	int i = 0;
 	char *inicioloop = *p;
-	while(*p!=0&&i<10){
+	while(*p!=0){
 		if(*(*p)==']'){
 			printf("fim do loop\n");
 			*p = inicioloop;
@@ -24,7 +24,7 @@ char *loop(char **e,char **p,char *vetor,int *pos){
 		}
 		i++;
 	}	
-	return *p;
+	return *
 		
 	//}
 }
@@ -62,7 +62,7 @@ char *codigo(char **e,char **p,char *vetor,int *pos){
 				if(*(*e)=='\0'){
 					*p=0;
 				}else{
-					**p = **e);
+					**vetor = **e);
 				}
 				printf("ler %c\n",**p);
 				p++;
