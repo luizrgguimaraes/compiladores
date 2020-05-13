@@ -4,100 +4,115 @@
 #define TAM 3000
 
 
-char *loop(char **e, char **p,char *vetor,int *pos);
-char *codigo(char **e, char **p,char *vetor,int *pos);
+void loop(char **e, char **p,char *vetor,int *pos);
+void codigo(char **e, char **p,char *vetor,int *pos);
 
 
-char *loop(char **e,char **p,char *vetor,int *pos){
+void loop(char **e,char **p,char *vetor,int *pos){
 	int i = 0;
 	char *inicioloop = *p;
-	while(*p!=0&&i<10){
-		if(*(*p)==']'){
-			printf("fim do loop\n");
+	char *fimloop;
+	while(1){
+		if(**p=='['){
+			if(*(vetor+*pos)==0){
+				*p=fimloop;
+				break;
+			}else{
+				(*p)++;
+			}
+		}
+		if(**p==']'){
+			//printf("fim do loop\n");
+			fimloop = *p;
 			*p = inicioloop;
-		}else if(*(*p)==0){
-			printf("loop encontrou 0 - return\n");
-			return *p;
 		}else{
-			printf("loop->codigo %c\n",*p);
-			*p = codigo(e,p,vetor,pos);
+			//printf("loop->codigo %c\n",**p);
+			codigo(e,p,vetor,pos);
 		}
 		i++;
-	}	
-	return *p;
-		
-	//}
+	}
+	(*p)++;	
 }
 
-char *codigo(char **e,char **p,char *vetor,int *pos){
+void codigo(char **e,char **p,char *vetor,int *pos){
 	int c;
-	int i=0;
-		switch(*(*p)){
+		//printf("codigo:%c\n",**p);
+		switch(**p){
 			case '>':
 				(*pos)++;
-				printf("pos++\n");
+				//printf("pos++=%d\n",*pos);
+				(*p)++;
 				break;
 			case '<':
 				(*pos)--;
-				printf("pos--\n");
+				//printf("pos--=%d\n",*pos);
+				(*p)++;
 				break;
 			case '+':
-				printf("soma byte antes %c\n",*(vetor+*pos));
+				//printf("soma byte antes %c\n",*(vetor+*pos));
 				c = (int)*(vetor+*pos);
 				c++;
 				*(vetor+*pos)=(char)c;
-				printf("soma byte depois %c\n",*(vetor+*pos));
+				//printf("soma byte depois %c\n",*(vetor+*pos));
+				(*p)++;
 				break;
 			case '-':
-				c = (int)**p;
+				c = (int)*(vetor+*pos);
 				c--;
-				**p=(char)c;
-				printf("subtrai byte %c\n",**p);
+				*(vetor+*pos)=(char)c;
+				//printf("subtrai byte %c\n",*(vetor+*pos));
+				(*p)++;
 				break;
 			case '.':
-				printf("printf\n");
-				printf("%c",*p);
+				printf("print:%c\n",*(vetor+*pos));
+				(*p)++;
 				break;
 			case ',':
 				if(*(*e)=='\0'){
-					*p=0;
+					*(vetor+*pos)=0;
 				}else{
-					**p = **e);
+					*(vetor+*pos) = **e;
 				}
-				printf("ler %c\n",**p);
-				p++;
+				(*e)++;
+				//printf("ler %c\n",*(vetor+*pos));
+				(*p)++;
 				break;
 			case '[':
-				printf("call loop\n");
-				p = loop(e,++p,vetor,pos);
+				//printf("call loop\n");
+				loop(e,p,vetor,pos);
+				
 		}
-		i++;
-		return (*p)++;
+		
+}
+
+void print(char *vetor){
+	printf("Vetor:");
+	for(int i=0;i<TAM;i++){
+		printf("%c",*(vetor+i));
+	}
+	printf("\n");
 }
 
 int main(){
 	
-	char *entrada = "marrocos";
+	//char *entrada = "marrocos";
+	char *entrada = "nada";
 	char *e = entrada;
-
-	char *programa = "+[>,]<-[+,<-]";
-
+	
+	//char *programa = "+[>,]<-[+.<-]";
+	char *programa = "++++++++++[>+++++++>++++++++++>+++>+<<<<-]>++.>+.+++++++..+++.>++.<<+++++++++++++++.>.+++.------.--------.>+.>.";
+	char *p = programa;	
 	char vetor[3000];
 	for(int i=0;i<3000;i++)vetor[i]=0;
+	//print(vetor);
 	int i=0;
-	//while(*programa!='\0'){
-	//	vetor[i] = *programa;
-	//	programa++;	
-	//	i++;
-	//}
-	i=0;
-	char *p = programa;
 	int pos=0;
-	while(*p!=0){
-		printf("main->codigo %c\n",*p);
+	while(*p!='\0'){
+		//printf("main->programa=%c\n",*p);
 		codigo(&e,&p,vetor,&pos);
+		//print(vetor);
 		i++;
-		if(i>=2)break;
+		//if(i>=8)break;
 	}
 
 return 0;
