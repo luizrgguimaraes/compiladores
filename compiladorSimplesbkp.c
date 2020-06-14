@@ -90,10 +90,10 @@ Token *analisar(char *p){
 	Token *token = NULL;
 	if(*p >= 'a' && *p <= 'z'){
 		for(int i=0;i<10;i++){
-			//printf("registradores[%d].set = %d\n",i,registradores[i].set);
+			printf("registradores[%d].set = %d\n",i,registradores[i].set);
 			if(registradores[i].set != 0){
-				//printf("registradores[%d].token->tipo.v.nome = %s\n",i,registradores[i].token->tipo.v.nome);
-				//printf("registradores[%d].token->tipo.v.valor = %d\n",i,registradores[i].token->tipo.v.valor);
+				printf("registradores[%d].token->tipo.v.nome = %s\n",i,registradores[i].token->tipo.v.nome);
+				printf("registradores[%d].token->tipo.v.valor = %d\n",i,registradores[i].token->tipo.v.valor);
 				if(strcmp(registradores[i].token->tipo.v.nome, p)==0){
 					token = registradores[i].token;
 					break;
@@ -102,7 +102,7 @@ Token *analisar(char *p){
 				token =  novaVariavel(p);
 				registradores[i].token = token;
 				registradores[i].set = 1;
-				//printf("setou registradores[%d].token->tipo.v.nome = %s\n",i,registradores[i].token->tipo.v.nome);
+				printf("setou registradores[%d].token->tipo.v.nome = %s\n",i,registradores[i].token->tipo.v.nome);
 				break;
 			}
 			
@@ -113,14 +113,14 @@ Token *analisar(char *p){
 	}else if(*p == '=' || *p == '+'){
 		token = novoOperador(p);
 	}
-	//printToken(token);
+	printToken(token);
 	return token;
 }	
 
 Token *calcular(Token *token,Token *nextToken){
-	//printf("calcular 2 tokens\n");
-	//printToken(token);
-	//printToken(nextToken);
+	printf("calcular 2 tokens\n");
+	printToken(token);
+	printToken(nextToken);
 
 
 	if(nextToken == NULL)return token;
@@ -145,10 +145,11 @@ Token *calcular(Token *token,Token *nextToken){
 		}else{
 			token->tipo.i += nextToken->tipo.i;
 		}
+ntf("ATRIBUICAO TIPO%d = %d\n",token->tt,token->v.inteiro);
 
 	}
-	//printf("calculou token\n");
-	//printToken(token);
+	printf("calculou token\n");
+	printToken(token);
 	return token;
 	//printf("resultado proximo = %d\n",resultado);
 }
@@ -167,19 +168,21 @@ Token *nextToken(FILE *file){
 	}
 
 	while(*p != EOF){
-		if(*p == ' '){
-			*p = '\0';
-			//printf("vai analisar %s\n",head);
-			token = analisar(head);
-			next = nextToken(file);
-		}else if(*p == '\n'){
-			*p = '\0';
-			//printf("vai analisar %s\n",head);
-			token = analisar(head);
-			next = NULL;
-		}
+		if(*p == ' ' || *p == '\n'){
+			if(*p == ' '){
+				*p = '\0';
+				printf("vai analisar %s\n",head);
+				token = analisar(head);
+				next = nextToken(file);
+			}else{
+				*p = '\0';
+				printf("vai analisar %s\n",head);
+				token = analisar(head);
+				next = NULL;
+			}
 
-		return calcular(token,next);
+			return calcular(token,next);
+		}
 		p++;
 		*p = getc(file);
 	}
